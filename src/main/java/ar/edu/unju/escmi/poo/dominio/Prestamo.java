@@ -12,10 +12,13 @@ public class Prestamo {
     private Usuario usuario;
     private List<Libro> libros;
 
-    public Prestamo(LocalDate fechaDeInicio, LocalDate fechaVencimiento, Estado estado, Usuario usuario, List<Libro> libros) {
+   public Prestamo() {
+    }
+
+    public Prestamo(LocalDate fechaDeInicio, LocalDate fechaVencimiento, Usuario usuario, List<Libro> libros) {
         this.fechaDeInicio = fechaDeInicio;
         this.fechaVencimiento = fechaVencimiento;
-        this.estado = estado;
+        this.estado = Estado.ACTIVO;
         this.usuario = usuario;
         this.libros = libros;
     }
@@ -60,17 +63,22 @@ public class Prestamo {
         this.libros = libros;
     }
 
+    // Metodos
+    // Retorna un valor entero que es la cantidad de días que hay entre fecha inicio y fecha vencimiento.
     public Integer cantidadDeDias(LocalDate fechaDeInicio, LocalDate fechaVencimiento){
         return fechaVencimiento.getDayOfYear() - fechaDeInicio.getDayOfYear();
     }
-    public void mostrarDatos(Prestamo prestamo){
+
+    //  Muestra los datos del préstamo.
+    public static void mostrarDatos(Prestamo prestamo){
         System.out.println("Fecha de inicio: " + prestamo.getFechaDeInicio());
         System.out.println("Fecha de vencimiento: " + prestamo.getFechaVencimiento());
         System.out.println("Estado: " + prestamo.getEstado());
         System.out.println("Usuario: " + prestamo.getUsuario());
         System.out.println("Libros: " + prestamo.getLibros());
     }
-
+    // Actualiza el valor del estado del préstamo, es activo si no se superó
+    // la fecha de vencimiento, es vencido si fecha actual es posterior a fecha vencimiento.
     public void actualizarEstado(Prestamo prestamo){
         LocalDate fechaActual = LocalDate.now();
         if(fechaActual.isAfter(prestamo.getFechaVencimiento())){
